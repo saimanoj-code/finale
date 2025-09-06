@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Annual Stock Dashboard</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #f7f7f7;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: auto;
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    h1, h2 {
+      text-align: center;
+      color: #333;
+    }
+
+    .table-container {
+      margin-top: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+
+    th, td {
+      padding: 12px;
+      border: 1px solid #ccc;
+      text-align: center;
+    }
+
+    .chart-container {
+      margin-top: 40px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Annual Stock Dashboard</h1>
+
+    <div class="table-container">
+      <h2>Stock Prices (2020 - 2024)</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Year</th>
+            <th>Stock Price (USD)</th>
+          </tr>
+        </thead>
+        <tbody id="stock-table">
+          <!-- Data will be inserted by JS -->
+        </tbody>
+      </table>
+    </div>
+
+    <div class="chart-container">
+      <canvas id="stockChart"></canvas>
+    </div>
+  </div>
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <script>
+    // Sample stock data
+    const stockData = [
+      { year: "2020", price: 150 },
+      { year: "2021", price: 180 },
+      { year: "2022", price: 210 },
+      { year: "2023", price: 240 },
+      { year: "2024", price: 275 }
+    ];
+
+    // Insert data into table
+    const tableBody = document.getElementById("stock-table");
+    stockData.forEach(entry => {
+      const row = document.createElement("tr");
+      row.innerHTML = `<td>${entry.year}</td><td>$${entry.price}</td>`;
+      tableBody.appendChild(row);
+    });
+
+    // Create chart
+    const ctx = document.getElementById("stockChart").getContext("2d");
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: stockData.map(entry => entry.year),
+        datasets: [{
+          label: "Stock Price (USD)",
+          data: stockData.map(entry => entry.price),
+          backgroundColor: "rgba(54, 162, 235, 0.6)",
+          borderColor: "rgba(54, 162, 235, 1)",
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        scales: {
+          y: {
+            beginAtZero: false
+          }
+        }
+      }
+    });
+  </script>
+</body>
+</html>
